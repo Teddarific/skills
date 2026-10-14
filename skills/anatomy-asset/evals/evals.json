@@ -1,0 +1,35 @@
+{
+  "skill_name": "anatomy-asset",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Make a hero illustration for the landing page of Quill, a calm journaling app. Our site background is #f4f1ea and the brand colour is #2f6b4f. The headline sits on the left, so keep the art on the right. A single SVG I can drop in as an <img>.",
+      "expected_output": "Names the size (Asset), writes a short brief and 3-5 concepts (literal, metaphor, scene) and picks one, such as a writing desk with a fountain pen and index cards. Ships a standalone .svg (valid XML, xmllint silent) and a preview page on a 1200x640-ish canvas with the art in the right region and a safe zone on the left that the preview checks (console clean). Greys are grounded in #f4f1ea via assetSvg({ paper }), the green is an accent ramp on the subject and one or two echoes, never typed hex fills. Highly detailed (50+ real parts), lines check prints line ends: 0, optional ambient motion is CSS-only, slow, at most three moving things, and still under reduced motion. Checked at 1x, at 4x on every accent part, and loaded through an <img>.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "I need three matching spot illustrations for a features row on a dark site (#0b0d12): 'Fast', 'Secure', 'Works offline'. Accent colour #7c5cff. Square, about 240px each.",
+      "expected_output": "Names the size (Scene, since it is a matching set, or proposes it as three Spots with an estimate), picks one object per feature from one shared world (for example a stopwatch, a safe-deposit box, a battery lantern), and builds all three from one script with one camera, one world scale (within about 10%), one part vocabulary and one accent family. Each is a standalone valid SVG on a square canvas, weight about 0.5, readable at 240px, dark theme grounded in #0b0d12, accent on each spot's own moment. Line check zero on each, captured at the shipped size.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Can you make an isometric illustration of a little robot barista making coffee for our AI product's 404 page? Make it fun. Light background, any colours you like but keep it tasteful.",
+      "expected_output": "Treats the playful brief leniently (a robot is fine) but builds it as a real, well-made object: an espresso machine with portafilter, group head, drip tray and steam wand, a small jointed robot with real joints and screws, cups on a tray; no floating abstract shapes. Mostly monochrome with one or two accents chosen and stated. Standalone SVG plus preview, valid XML, line check zero, 4x close-ups. If round parts or pipes (steam wand) are used, the audit passes.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Make an OG image (1200x630) for our launch post: a model rocket on a launch rail on a workbench, our brand orange #ff6a1a, dark theme. Leave the left 45% for the title.",
+      "expected_output": "Uses the user's object as the brief and skips the concept round. A 1200x630 canvas with background: true, the art fitted with fitInto into the right 55% and a safe zone over the left 45% (preview console clean). Dark ground, orange accent on the rocket or its moment, workbench and rail built from real parts (vise, clamps, rail with ticks, launch controller with a cable that ends on connectors, audited). Exported as SVG and as PNG at 1x and 2x with capture.mjs --select .asset-stage.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Our marketing site is Next.js. Make a hero for our database product 'Vaultline' — something like a vault door. We want both light and dark versions to swap with the theme.",
+      "expected_output": "Builds a vault door asset (bolt work, dial with radial ticks, hinge, handle spokes, frame with rivets) from one script with a --light flag, the same accents in both themes, each a valid standalone SVG. Explains shipping both files with <picture>/prefers-color-scheme or the site's theme class, and using <img> or next/image with unoptimized. Does not build a React interactive figure unless asked. Line check zero in both themes; accent edges read correctly at 4x in each.",
+      "files": []
+    }
+  ]
+}

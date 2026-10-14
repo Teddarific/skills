@@ -1,0 +1,6 @@
+* text=auto eol=lf
+skills/*/examples/**/*.html linguist-generated=true
+*.webp binary
+*.gif binary
+*.mov binary
+*.png binary
