@@ -1,7 +1,7 @@
 import React from "react";
 
 // Every illustration on this page was made by the anatomy-asset skill, served from the repo.
-const CDN = "https://cdn.jsdelivr.net/gh/Teddarific/anatomy-asset@02839564a02a6df61fba6da0677f2b88dd624987/examples";
+const CDN = "https://cdn.jsdelivr.net/gh/Teddarific/skills@f9d967875265208ed65fac2429193e6857873880/skills/anatomy-asset/examples";
 
 const C = {
   page: "#07090d",
