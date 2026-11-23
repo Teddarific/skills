@@ -78,3 +78,27 @@ jobs:
           git status --short
           git diff --stat --exit-code
           test -z "$(git status --porcelain)"
+
+  what-if:
+    name: "what-if: script syntax"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: skills/what-if/scripts
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Syntax checks
+        run: |
+          for f in *.sh; do bash -n "$f"; done
+          for f in *.mjs *.js; do node --check "$f"; done
+          python3 -m py_compile *.py
+
+      - name: Shell scripts are executable
+        run: |
+          for f in *.sh; do test -x "$f" || { echo "not executable: $f"; exit 1; }; done
