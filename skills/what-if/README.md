@@ -56,14 +56,14 @@ Each run: read the notes and log; pick themes; browse the web for references cle
 
 POSTING (automatic, from your own Slack app, no review step)
 1. Post an intro written as a "What if…" question, with a line that these are concepts drawn from what we're hearing from customers, not a roadmap.
-2. For each piece in order: a caption with the name bold as **Name**, one or two specific "What if…" sentences and reference links; then the mp4 as a file attachment so it plays inline; read the channel back to confirm; delete the stray "filename.mp4" message the upload leaves. Check an upload didn't already go through before retrying. Never number pieces or post side explorations.
+2. For each piece in order: a caption with the name bold as **Name**, one or two specific "What if…" sentences and 1-3 reference links (real pages only); then the mp4 as a file attachment so it plays inline; read the channel back to confirm; delete the stray "filename.mp4" message the upload leaves. Check an upload didn't already go through before retrying. Never number pieces or post side explorations.
 3. Send me one line here with the intro link. If posting fails, send me the videos and captions here. If nothing publishable was made, say what blocked it. If a run is cut off, resume from the checkpoint, finish and post.
 
 MINIMUM FILM CRAFT
 - One scene per concept on a fixed 960x540 stage; every animation is a pure function of one shared clock stepped by hand when recording, so frames are exact.
-- Record from a built bundle (not the dev server) with headless Chrome via Playwright at deviceScaleFactor 2, 60 fps; confirm fonts loaded. Encode with ffmpeg libx264, preset slow, crf 14, yuv420p, faststart; save a hero image per video.
+- Record from a built bundle (not the dev server) with Playwright's headless Chromium at deviceScaleFactor 2, 60 fps; confirm the fixed-rules fonts and weights really loaded. Encode with ffmpeg libx264, preset slow, crf 14, yuv420p, faststart; save a hero image per video.
 - Each film: 5-8 s, one idea readable in 2 seconds, silent. Settle, trigger (visible cursor or keypress), payoff, hold, return to the start state so it loops. Ease-out curves, rest-to-rest moves, staggered by dependency, at least 0.9 s per move.
-- QA from the encoded video: codec h264, 1920x1080, yuv420p, 60 fps and frame count; loop seam (last-to-first step no more than about 1.5x the 95th percentile of normal steps); a 12-frame contact sheet you actually look at; full-res zoom of the busiest moment and the end for garbled text, clipped shapes, overlaps. Verify flags before fixing.
+- QA from the encoded video: codec h264, 1920x1080, yuv420p, 60 fps and frame count; loop seam (last-to-first step no more than about 1.5x the 95th percentile of normal steps) plus real motion mid-film (a static film passes the seam); a 12-frame contact sheet you actually look at for the beats; full-res zooms of the busiest moment and the end, the real check for garbled text, clipped shapes, overlaps. Verify flags before fixing.
 - One worker builds the drop in sequence; you review the encoded videos before posting.
 
 Log concepts and my reactions; treat repeated corrections as rules. Begin with step 1.
@@ -71,8 +71,12 @@ Log concepts and my reactions; treat repeated corrections as rules. Begin with s
 
 ## What's in this folder
 - [`SKILL.md`](SKILL.md): the craft skill (stack, motion, QA, posting).
-- [`scripts/`](scripts): reference scripts (`env.sh`, `build.sh`, `record.mjs`, `recall.sh`, `seam.py`, `qa.sh`, `strip.sh`, `snap.mjs`, `sh.sh`, `capture.mjs`, `write_drop.py`, `clock.js`). Copy them into your app folder; raw files are at `https://raw.githubusercontent.com/Teddarific/skills/main/skills/what-if/scripts/<file>`. They need Node, Chrome, ffmpeg, Python with Pillow and numpy, and `playwright-core`, `vite` and `react` in the app. Every run-specific path is a variable in `env.sh`.
+- [`scripts/`](scripts): reference scripts (`env.sh`, `build.sh`, `record.mjs`, `recall.sh`, `seam.py`, `qa.sh`, `strip.sh`, `snap.mjs`, `sh.sh`, `capture.mjs`, `write_drop.py`, `fonts.mjs`, `clock.js`) and a minimal [`package.json`](scripts/package.json). Raw files are at `https://raw.githubusercontent.com/Teddarific/skills/main/skills/what-if/scripts/<file>`.
+  - Install: put `package.json` in your app folder, or in a folder above both the app and the scripts, and run `npm install && npx playwright install chromium` there (add `--with-deps` on a fresh Linux machine). They also need ffmpeg and Python with Pillow and numpy. The scripts use Playwright's bundled Chromium unless you set `CHROME`.
+  - Fetched files aren't executable: run them as `bash build.sh`, `node record.mjs …`, `python3 seam.py …`, or `chmod +x` them first.
+  - The app can live anywhere (`APP_DIR`), and every run-specific path is a variable in `env.sh`. `FONT_CHECKS` is required: list your product's fonts and weights from the fixed-rules guide.
 - [`examples/brief-template.md`](examples/brief-template.md): the per-film brief and the finishing brief.
+- [`tests/smoke.sh`](tests/smoke.sh): an end-to-end run of the scripts on a throwaway app, as on a fresh machine (CI runs it).
 
 ## Notes
 - Posting is automatic once you approve the test drop. Pause the routine any time by asking your bot.
