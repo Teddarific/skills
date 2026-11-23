@@ -1,0 +1,17 @@
+// Full-res snapshots of a scene at chosen times (ms) for the zoom check.
+// node snap.mjs <scene> <t1,t2,...> [tag]  -> proofs/snaps/<scene>-<tag>-<t>.png (env: DSF, PORT, PAGE, ROOT)
+import { chromium } from 'playwright-core'
+const [scene, list, tag = 'a'] = process.argv.slice(2)
+const b = await chromium.launch({ executablePath: process.env.CHROME || '/usr/bin/google-chrome', args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] })
+const p = await b.newPage({ viewport: { width: 960, height: 540 }, deviceScaleFactor: Number(process.env.DSF || 1) })
+p.on('pageerror', (e) => console.error('[pageerror]', e.message))
+p.on('console', (m) => { if (m.type() === 'error') console.error('[page]', m.text()) })
+await p.goto(`http://localhost:${process.env.PORT || 5292}${process.env.PAGE || '/'}?scene=${scene}&record=1`, { waitUntil: 'networkidle' })
+await p.evaluate(() => document.fonts.ready)
+await p.waitForFunction(() => typeof window.__filmStep === 'function')
+let cur = 0; await p.evaluate(() => window.__filmStep(0))
+for (const t of list.split(',').map(Number).sort((a, c) => a - c)) {
+  await p.evaluate((d) => window.__filmStep(d), t - cur); cur = t
+  await p.screenshot({ path: `${process.env.ROOT || '.'}/proofs/snaps/${scene}-${tag}-${t}.png` })
+}
+await b.close(); console.log('ok')
