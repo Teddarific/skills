@@ -95,10 +95,40 @@ jobs:
 
       - name: Syntax checks
         run: |
-          for f in *.sh; do bash -n "$f"; done
+          for f in *.sh ../tests/*.sh; do bash -n "$f"; done
           for f in *.mjs *.js; do node --check "$f"; done
           python3 -m py_compile *.py
+          node -e 'JSON.parse(require("fs").readFileSync("package.json", "utf8"))'
 
-      - name: Shell scripts are executable
+      - name: Scripts with a shebang are executable
         run: |
-          for f in *.sh; do test -x "$f" || { echo "not executable: $f"; exit 1; }; done
+          for f in * ../tests/*; do
+            [ -f "$f" ] && [ "$(head -c2 "$f")" = '#!' ] || continue
+            test -x "$f" || { echo "not executable: $f"; exit 1; }
+          done
+
+  what-if-smoke:
+    name: "what-if: end-to-end smoke"
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: skills/what-if
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: ffmpeg, Pillow and numpy
+        run: |
+          python3 -m pip install --quiet numpy pillow
+          command -v ffmpeg || { sudo apt-get update -q && sudo apt-get install -y -q ffmpeg; }
+
+      - name: Smoke test
+        run: WITH_DEPS=1 bash tests/smoke.sh
