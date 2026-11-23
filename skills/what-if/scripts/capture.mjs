@@ -1,10 +1,11 @@
+#!/usr/bin/env node
 // Captures the user's real product page: a screenshot plus computed styles and copy of visible elements, so scenes build on the real product.
-// node capture.mjs <url> <name>  -> real/<name>.png (full-viewport screenshot @2x) + real/<name>.json (computed styles + copy of visible elements)
-import { chromium } from 'playwright-core'
+// node capture.mjs <url> <name>  -> $APP_DIR/real/<name>.png (full-viewport screenshot @2x) + real/<name>.json (computed styles + copy of visible elements). CHROME only to use a browser other than Playwright's Chromium.
+import { chromium } from 'playwright'
 import fs from 'node:fs'
 const [url, name = 'home'] = process.argv.slice(2)
-const OUT = `${process.env.ROOT || '.'}/real`; fs.mkdirSync(OUT, { recursive: true })
-const b = await chromium.launch({ executablePath: process.env.CHROME || '/usr/bin/google-chrome' })
+const OUT = `${process.env.APP_DIR || '.'}/real`; fs.mkdirSync(OUT, { recursive: true })
+const b = await chromium.launch({ executablePath: process.env.CHROME || undefined })
 const p = await b.newPage({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 2 })
 await p.goto(url, { waitUntil: 'networkidle', timeout: 60000 }); await p.waitForTimeout(3500)
 await p.screenshot({ path: `${OUT}/${name}.png` })

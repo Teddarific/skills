@@ -1,6 +1,7 @@
+#!/usr/bin/env node
 // Frame-exact recorder. Steps the shared clock 1/60 s per frame on a 960x540 stage at 2x (1920x1080), then encodes with ffmpeg. Aborts if the fonts in FONT_CHECKS aren't loaded. START=<frame> resumes.
-// usage: node record.mjs <scene> <durationMs> <outBase> [heroMs]   (env: PORT PAGE FRAMES_DIR CHROME FONT_CHECKS START)
-import { chromium } from 'playwright-core'
+// usage: node record.mjs <scene> <durationMs> <outBase> [heroMs]   (env: PORT PAGE FRAMES_DIR FONT_CHECKS START; CHROME only to use a browser other than Playwright's Chromium)
+import { chromium } from 'playwright'
 import { execFileSync } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -11,7 +12,7 @@ const START = Number(process.env.START || 0)
 if (!START) fs.rmSync(tmp, { recursive: true, force: true })
 fs.mkdirSync(tmp, { recursive: true })
 const browser = await chromium.launch({
-  executablePath: process.env.CHROME || '/usr/bin/google-chrome',
+  executablePath: process.env.CHROME || undefined,
   args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--disable-accelerated-2d-canvas', '--font-render-hinting=none'],
 })
 const page = await browser.newPage({ viewport: { width: 960, height: 540 }, deviceScaleFactor: 2 })

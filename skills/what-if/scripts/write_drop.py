@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # Writes intro.txt and captions.json for the day from the PIECES list. Edit the list, then run it.
 # python3 write_drop.py  -> writes intro.txt and captions.json for the day from the PIECES list below
 import json, os

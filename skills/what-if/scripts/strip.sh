@@ -1,6 +1,6 @@
 #!/bin/bash
 # Labeled contact sheet of n evenly spaced frames from any mp4.
-# usage: strip.sh <mp4> <out.png> [n]  -> n evenly spaced frames, labeled with time
+# usage: bash strip.sh <mp4> <out.png> [n]  -> n evenly spaced frames, labeled with time
 f=$1; o=$2; n=${3:-12}
 d=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$f"); tmp=$(mktemp -d)
 for i in $(seq 0 $((n-1))); do t=$(python3 -c "print($d*$i/$n)"); ffmpeg -v error -ss $t -i "$f" -frames:v 1 -vf scale=480:270 $tmp/s$(printf %02d $i).png; done

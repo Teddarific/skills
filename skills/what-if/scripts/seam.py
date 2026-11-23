@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # Loop seam check on the raw frames of one scene: last->first must look like an ordinary frame step.
 # python3 seam.py <scene>   (env: FRAMES_DIR). Last->first must look like an ordinary frame step.
 import sys, os, glob, numpy as np
