@@ -17,7 +17,7 @@ This folder is the skill plus a paste-in setup prompt, tuned for Grok Bot becaus
 ## Setup
 1. Create a new Grok Bot and paste the block below as your first message.
 2. Connect GitHub (or give a public repo URL), check the short summary it writes, and answer the few questions.
-3. It does a test drop, asks for your feedback, and only then schedules the daily routine.
+3. It does a test drop, asks for your feedback, and schedules the daily routine only after you approve it.
 
 The bot saves the film-craft skill from [`SKILL.md`](SKILL.md) if you give it the raw link (`https://raw.githubusercontent.com/Teddarific/skills/main/skills/what-if/SKILL.md`) or paste the file. If you do neither, the minimum rules are inlined in the block, so it still works.
 
@@ -43,26 +43,27 @@ SETUP
 5. Slack: ask me to connect Slack, pick the workspace and channel, and add your own Slack app so you post from it, not my personal account (uploads through a person's account came through as unplayable stubs).
 6. Schedule: ask for weekdays, time and timezone.
 7. Skill: ask for the raw GitHub link to what-if/SKILL.md, or to paste it, and save it as a skill called what-if. If I give neither, save the minimum craft below as that skill.
-8. Test drop: build 3 films, show me, iterate on my feedback. Only then create the weekday routine with the instructions below, confirm the time, and tell me how to pause it.
+8. Test drop: build 3 films, show me, and iterate on my feedback. Create the weekday routine with the instructions below only after I approve the test drop; then confirm its time and tell me how to pause it.
 
 DAILY INSTRUCTIONS
 What's actively being worked on leads. Start from the themes file; if older than about 7 days, refresh it from recent issues, PRs and connected tools, with no customer names or personal data.
 - At least 7 of 10 pieces each answer one specific current theme with a "What if…" product moment that's clear, shippable and recognizable within 2 seconds. Rotate themes and check the log.
 - Up to 3 pieces can be primitives, marketing moments or eye candy (1-2 max; precise, no hard cuts). At least 3 pieces should be braver in concept, not in animation. At least 1-2 should use the real captured page.
+- For smaller drops, scale these shares: a 3-film test is mostly theme pieces plus at most one braver piece.
 - Practicality rule: "Would a team ship this, and would users still like it after daily use?"
 - Avoid: decorative motion outside eye candy, miniature whole flows (show ONE moment), reskins of existing patterns, purposeless novelty, another brand's look, repeats, "AI design tool" or "replace designers" language, ticket IDs, customer quotes, pricing.
 Each run: read the notes and log; pick themes; browse the web for references clever in concept and restrained in motion (take the pattern, not the look); build in a dated folder with the skill, updating a checkpoint file after every piece; check each at 100% zoom from the encoded video and replace weak pieces; log one line per piece (theme or "eye candy") plus flaws.
 
 POSTING (automatic, from your own Slack app, no review step)
 1. Post an intro written as a "What if…" question, with a line that these are concepts drawn from what we're hearing from customers, not a roadmap.
-2. For each piece in order: a caption with the name bold as **Name**, one or two specific "What if…" sentences and reference links; then the mp4 as a file attachment so it plays inline; read the channel back to confirm; delete the stray "filename.mp4" message the upload leaves. Check an upload didn't already go through before retrying. Never number pieces or post side explorations.
+2. For each piece in order: a caption with the name bold as **Name**, one or two specific "What if…" sentences and 1-3 reference links (real pages only); then the mp4 as a file attachment so it plays inline; read the channel back to confirm; delete the stray "filename.mp4" message the upload leaves. Check an upload didn't already go through before retrying. Never number pieces or post side explorations.
 3. Send me one line here with the intro link. If posting fails, send me the videos and captions here. If nothing publishable was made, say what blocked it. If a run is cut off, resume from the checkpoint, finish and post.
 
 MINIMUM FILM CRAFT
 - One scene per concept on a fixed 960x540 stage; every animation is a pure function of one shared clock stepped by hand when recording, so frames are exact.
-- Record from a built bundle (not the dev server) with headless Chrome via Playwright at deviceScaleFactor 2, 60 fps; confirm fonts loaded. Encode with ffmpeg libx264, preset slow, crf 14, yuv420p, faststart; save a hero image per video.
+- Record from a built bundle (not the dev server) with Playwright's headless Chromium at deviceScaleFactor 2, 60 fps; confirm the fixed-rules fonts and weights really loaded. Encode with ffmpeg libx264, preset slow, crf 14, yuv420p, faststart; save a hero image per video.
 - Each film: 5-8 s, one idea readable in 2 seconds, silent. Settle, trigger (visible cursor or keypress), payoff, hold, return to the start state so it loops. Ease-out curves, rest-to-rest moves, staggered by dependency, at least 0.9 s per move.
-- QA from the encoded video: codec h264, 1920x1080, yuv420p, 60 fps and frame count; loop seam (last-to-first step no more than about 1.5x the 95th percentile of normal steps); a 12-frame contact sheet you actually look at; full-res zoom of the busiest moment and the end for garbled text, clipped shapes, overlaps. Verify flags before fixing.
+- QA from the encoded video: codec h264, 1920x1080, yuv420p, 60 fps and frame count; loop seam (last-to-first step no more than about 1.5x the 95th percentile of normal steps) plus real motion mid-film (a static film passes the seam); a 12-frame contact sheet you actually look at for the beats; full-res zooms of the busiest moment and the end, the real check for garbled text, clipped shapes, overlaps. Verify flags before fixing.
 - One worker builds the drop in sequence; you review the encoded videos before posting.
 
 Log concepts and my reactions; treat repeated corrections as rules. Begin with step 1.
@@ -70,8 +71,12 @@ Log concepts and my reactions; treat repeated corrections as rules. Begin with s
 
 ## What's in this folder
 - [`SKILL.md`](SKILL.md): the craft skill (stack, motion, QA, posting).
-- [`scripts/`](scripts): reference scripts (`env.sh`, `build.sh`, `record.mjs`, `recall.sh`, `seam.py`, `qa.sh`, `strip.sh`, `snap.mjs`, `sh.sh`, `capture.mjs`, `write_drop.py`, `clock.js`). Copy them into your app folder; raw files are at `https://raw.githubusercontent.com/Teddarific/skills/main/skills/what-if/scripts/<file>`. They need Node, Chrome, ffmpeg, Python with Pillow and numpy, and `playwright-core`, `vite` and `react` in the app. Every run-specific path is a variable in `env.sh`.
+- [`scripts/`](scripts): reference scripts (`env.sh`, `build.sh`, `record.mjs`, `recall.sh`, `seam.py`, `qa.sh`, `strip.sh`, `snap.mjs`, `sh.sh`, `capture.mjs`, `write_drop.py`, `fonts.mjs`, `clock.js`) and a minimal [`package.json`](scripts/package.json). Raw files are at `https://raw.githubusercontent.com/Teddarific/skills/main/skills/what-if/scripts/<file>`.
+  - Install: put `package.json` in your app folder, or in a folder above both the app and the scripts, and run `npm install && npx playwright install chromium` there (add `--with-deps` on a fresh Linux machine). They also need ffmpeg and Python with Pillow and numpy. The scripts use Playwright's bundled Chromium unless you set `CHROME`.
+  - Fetched files aren't executable: run them as `bash build.sh`, `node record.mjs …`, `python3 seam.py …`, or `chmod +x` them first.
+  - The app can live anywhere (`APP_DIR`), and every run-specific path is a variable in `env.sh`. `FONT_CHECKS` is required: list your product's fonts and weights from the fixed-rules guide.
 - [`examples/brief-template.md`](examples/brief-template.md): the per-film brief and the finishing brief.
+- [`tests/smoke.sh`](tests/smoke.sh): an end-to-end run of the scripts on a throwaway app, as on a fresh machine (CI runs it).
 
 ## Notes
 - Posting is automatic once you approve the test drop. Pause the routine any time by asking your bot.

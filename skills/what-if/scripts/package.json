@@ -1,0 +1,14 @@
+{
+  "//": "Film app + What-if scripts. Put this in your app folder, or in a folder above both the app and the scripts, then: npm install && npx playwright install chromium (on a fresh Linux machine: npx playwright install --with-deps chromium). Also needs ffmpeg and Python with Pillow and numpy. Run the scripts as bash x.sh, node x.mjs, python3 x.py, or chmod +x them first.",
+  "name": "what-if-films",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "playwright": "^1.65.1",
+    "vite": "^8.3.8"
+  }
+}

@@ -1,9 +1,11 @@
-// Frame-exact recorder. Steps the shared clock 1/60 s per frame on a 960x540 stage at 2x (1920x1080), then encodes with ffmpeg. Aborts if the fonts in FONT_CHECKS aren't loaded. START=<frame> resumes.
-// usage: node record.mjs <scene> <durationMs> <outBase> [heroMs]   (env: PORT PAGE FRAMES_DIR CHROME FONT_CHECKS START)
-import { chromium } from 'playwright-core'
+#!/usr/bin/env node
+// Frame-exact recorder. Steps the shared clock 1/60 s per frame on a 960x540 stage at 2x (1920x1080), then encodes with ffmpeg. Aborts unless every font in FONT_CHECKS is loaded (fonts.mjs). START=<frame> resumes.
+// usage: node record.mjs <scene> <durationMs> <outBase> [heroMs]   (env: PORT PAGE FRAMES_DIR FONT_CHECKS START; CHROME only to use a browser other than Playwright's Chromium)
+import { chromium } from 'playwright'
 import { execFileSync } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
+import { requireFonts } from './fonts.mjs'
 const [scene, durStr, outBase, heroStr] = process.argv.slice(2)
 const fps = 60, dur = Number(durStr), frames = Math.round((dur / 1000) * fps)
 const tmp = `${process.env.FRAMES_DIR || '/tmp/frames'}/${scene}`
@@ -11,18 +13,14 @@ const START = Number(process.env.START || 0)
 if (!START) fs.rmSync(tmp, { recursive: true, force: true })
 fs.mkdirSync(tmp, { recursive: true })
 const browser = await chromium.launch({
-  executablePath: process.env.CHROME || '/usr/bin/google-chrome',
+  executablePath: process.env.CHROME || undefined,
   args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--disable-accelerated-2d-canvas', '--font-render-hinting=none'],
 })
 const page = await browser.newPage({ viewport: { width: 960, height: 540 }, deviceScaleFactor: 2 })
 page.on('console', (m) => { if (m.type() === 'error') console.error('[page]', m.text()) })
 page.on('pageerror', (e) => console.error('[pageerror]', e.message))
 await page.goto(`http://localhost:${process.env.PORT || 5292}${process.env.PAGE || '/'}?scene=${scene}&record=1`, { waitUntil: 'networkidle' })
-await page.evaluate(() => document.fonts.ready)
-const checks = (process.env.FONT_CHECKS || '').split(',').filter(Boolean)
-const fontsOk = await page.evaluate((fs_) => fs_.map((f) => [f, document.fonts.check(f)]), checks)
-console.log('fonts', JSON.stringify(fontsOk))
-if (fontsOk.some(([, ok]) => !ok)) { console.error('FONT NOT LOADED, aborting'); process.exit(2) }
+await requireFonts(page)
 await page.waitForFunction(() => typeof window.__filmStep === 'function')
 const box = await (await page.$('#stage')).boundingBox()
 await page.evaluate(() => window.__filmStep(0))
