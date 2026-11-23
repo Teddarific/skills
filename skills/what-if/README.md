@@ -17,7 +17,7 @@ This folder is the skill plus a paste-in setup prompt, tuned for Grok Bot becaus
 ## Setup
 1. Create a new Grok Bot and paste the block below as your first message.
 2. Connect GitHub (or give a public repo URL), check the short summary it writes, and answer the few questions.
-3. It does a test drop, asks for your feedback, and only then schedules the daily routine.
+3. It does a test drop, asks for your feedback, and schedules the daily routine only after you approve it.
 
 The bot saves the film-craft skill from [`SKILL.md`](SKILL.md) if you give it the raw link (`https://raw.githubusercontent.com/Teddarific/skills/main/skills/what-if/SKILL.md`) or paste the file. If you do neither, the minimum rules are inlined in the block, so it still works.
 
@@ -43,12 +43,13 @@ SETUP
 5. Slack: ask me to connect Slack, pick the workspace and channel, and add your own Slack app so you post from it, not my personal account (uploads through a person's account came through as unplayable stubs).
 6. Schedule: ask for weekdays, time and timezone.
 7. Skill: ask for the raw GitHub link to what-if/SKILL.md, or to paste it, and save it as a skill called what-if. If I give neither, save the minimum craft below as that skill.
-8. Test drop: build 3 films, show me, iterate on my feedback. Only then create the weekday routine with the instructions below, confirm the time, and tell me how to pause it.
+8. Test drop: build 3 films, show me, and iterate on my feedback. Create the weekday routine with the instructions below only after I approve the test drop; then confirm its time and tell me how to pause it.
 
 DAILY INSTRUCTIONS
 What's actively being worked on leads. Start from the themes file; if older than about 7 days, refresh it from recent issues, PRs and connected tools, with no customer names or personal data.
 - At least 7 of 10 pieces each answer one specific current theme with a "What if…" product moment that's clear, shippable and recognizable within 2 seconds. Rotate themes and check the log.
 - Up to 3 pieces can be primitives, marketing moments or eye candy (1-2 max; precise, no hard cuts). At least 3 pieces should be braver in concept, not in animation. At least 1-2 should use the real captured page.
+- For smaller drops, scale these shares: a 3-film test is mostly theme pieces plus at most one braver piece.
 - Practicality rule: "Would a team ship this, and would users still like it after daily use?"
 - Avoid: decorative motion outside eye candy, miniature whole flows (show ONE moment), reskins of existing patterns, purposeless novelty, another brand's look, repeats, "AI design tool" or "replace designers" language, ticket IDs, customer quotes, pricing.
 Each run: read the notes and log; pick themes; browse the web for references clever in concept and restrained in motion (take the pattern, not the look); build in a dated folder with the skill, updating a checkpoint file after every piece; check each at 100% zoom from the encoded video and replace weak pieces; log one line per piece (theme or "eye candy") plus flaws.
