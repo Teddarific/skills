@@ -1,6 +1,8 @@
 ---
-name: what-if-film-craft
-description: How to build, QA and post a daily drop of "What if..." concept films: short code-rendered, seamlessly looping product interaction videos at 1920x1080/60fps, built on the user's real product, checked from the encoded mp4, and posted to Slack so they play inline. Use whenever you are making or posting a What-if drop.
+name: what-if
+description: "How to build, QA and post a daily drop of \"What if...\" concept films: short code-rendered, seamlessly looping product interaction videos at 1920x1080/60fps, built on the user's real product, checked from the encoded mp4, and posted to Slack so they play inline. Use whenever you are making or posting a What-if drop."
+license: MIT
+compatibility: Tuned for Grok Bot; adapts to other agents that can run code, schedule jobs and post to Slack. Needs Node, Chrome, ffmpeg, Python with Pillow and numpy, and playwright-core, vite and react in the app.
 ---
 
 # What-if film craft
@@ -80,7 +82,7 @@ Don't post. Set the checkpoint stage to "ready to post" and report the out/ path
 - Keep real customer quotes and internal notes out of anything public. Describe the method, not the content.
 
 ## 8. Scripts
-Reference scripts live in the repo's `scripts/` folder: `env.sh`, `build.sh`, `record.mjs`, `recall.sh`, `seam.py`, `qa.sh`, `strip.sh`, `snap.mjs`, `sh.sh`, `capture.mjs`, `write_drop.py`, and the shared clock `clock.js`. If you can't fetch them, write equivalents to the specs above (shared clock stepped by hand, 960x540 at 2x, 60 fps, libx264 crf 14 yuv420p faststart; seam, qa, snapshot and capture steps as described). Requirements: Node, Chrome, ffmpeg, Python with Pillow and numpy, and `playwright-core`, `vite`, `react` in the app.
+Reference scripts live in this skill's `scripts/` folder (raw files at `https://raw.githubusercontent.com/Teddarific/skills/main/skills/what-if/scripts/<file>`): `env.sh`, `build.sh`, `record.mjs`, `recall.sh`, `seam.py`, `qa.sh`, `strip.sh`, `snap.mjs`, `sh.sh`, `capture.mjs`, `write_drop.py`, and the shared clock `clock.js`. If you can't fetch them, write equivalents to the specs above (shared clock stepped by hand, 960x540 at 2x, 60 fps, libx264 crf 14 yuv420p faststart; seam, qa, snapshot and capture steps as described). Requirements: Node, Chrome, ffmpeg, Python with Pillow and numpy, and `playwright-core`, `vite`, `react` in the app.
 
 The shared clock (step hook `window.__filmStep`):
 ```js

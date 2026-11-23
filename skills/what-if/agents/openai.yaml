@@ -1,0 +1,3 @@
+interface:
+  display_name: "What-if"
+  short_description: "A daily drop of short, code-rendered \"What if...\" concept films for your product, posted to Slack"

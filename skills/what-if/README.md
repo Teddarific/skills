@@ -2,7 +2,7 @@
 
 Every weekday your bot posts about 10 short, code-rendered concept films to a Slack channel: product and interaction ideas built on your real product (its tokens, components, copy and recent work), so your team has something to react to first thing in the morning.
 
-This repo is the skill plus a paste-in setup prompt, tuned for Grok Bot because it can read your GitHub repo, post to Slack from its own app, connect your tools, and render video on its own computer. The same ideas should adapt to other agents that can run code, schedule jobs and post to Slack.
+This folder is the skill plus a paste-in setup prompt, tuned for Grok Bot because it can read your GitHub repo, post to Slack from its own app, connect your tools, and render video on its own computer. The same ideas should adapt to other agents that can run code, schedule jobs and post to Slack.
 
 ## What you get
 - A daily drop in Slack: an intro plus about 10 films, each a 5-8 second seamless loop at 1920x1080, 60 fps, with a "What if…" caption and links to the references that inspired it.
@@ -19,7 +19,13 @@ This repo is the skill plus a paste-in setup prompt, tuned for Grok Bot because 
 2. Connect GitHub (or give a public repo URL), check the short summary it writes, and answer the few questions.
 3. It does a test drop, asks for your feedback, and only then schedules the daily routine.
 
-The bot saves the film-craft skill from [`skills/what-if-film-craft/SKILL.md`](skills/what-if-film-craft/SKILL.md) if you give it the raw link (`https://raw.githubusercontent.com/<your-github-user>/<this-repo>/main/skills/what-if-film-craft/SKILL.md`) or paste the file. If you do neither, the minimum rules are inlined in the block, so it still works.
+The bot saves the film-craft skill from [`SKILL.md`](SKILL.md) if you give it the raw link (`https://raw.githubusercontent.com/Teddarific/skills/main/skills/what-if/SKILL.md`) or paste the file. If you do neither, the minimum rules are inlined in the block, so it still works.
+
+Other agents (Claude Code, OpenCode, Codex, Antigravity) can install the skill with:
+
+```sh
+npx skills add Teddarific/skills --skill what-if -g
+```
 
 ## Paste this into Grok Bot
 
@@ -36,7 +42,7 @@ SETUP
 4. One optional offer: if I use tools with customer problems (Linear, Intercom, Slack channels, call notes), offer to connect them to sharpen the themes. If I decline, move on.
 5. Slack: ask me to connect Slack, pick the workspace and channel, and add your own Slack app so you post from it, not my personal account (uploads through a person's account came through as unplayable stubs).
 6. Schedule: ask for weekdays, time and timezone.
-7. Skill: ask for the raw GitHub link to what-if-film-craft/SKILL.md, or to paste it, and save it as a skill called what-if-film-craft. If I give neither, save the minimum craft below as that skill.
+7. Skill: ask for the raw GitHub link to what-if/SKILL.md, or to paste it, and save it as a skill called what-if. If I give neither, save the minimum craft below as that skill.
 8. Test drop: build 3 films, show me, iterate on my feedback. Only then create the weekday routine with the instructions below, confirm the time, and tell me how to pause it.
 
 DAILY INSTRUCTIONS
@@ -62,9 +68,9 @@ MINIMUM FILM CRAFT
 Log concepts and my reactions; treat repeated corrections as rules. Begin with step 1.
 ````
 
-## What's in this repo
-- [`skills/what-if-film-craft/SKILL.md`](skills/what-if-film-craft/SKILL.md): the craft skill (stack, motion, QA, posting).
-- [`scripts/`](scripts): reference scripts (`env.sh`, `build.sh`, `record.mjs`, `recall.sh`, `seam.py`, `qa.sh`, `strip.sh`, `snap.mjs`, `sh.sh`, `capture.mjs`, `write_drop.py`, `clock.js`). Copy them into your app folder. They need Node, Chrome, ffmpeg, Python with Pillow and numpy, and `playwright-core`, `vite` and `react` in the app. Every run-specific path is a variable in `env.sh`.
+## What's in this folder
+- [`SKILL.md`](SKILL.md): the craft skill (stack, motion, QA, posting).
+- [`scripts/`](scripts): reference scripts (`env.sh`, `build.sh`, `record.mjs`, `recall.sh`, `seam.py`, `qa.sh`, `strip.sh`, `snap.mjs`, `sh.sh`, `capture.mjs`, `write_drop.py`, `clock.js`). Copy them into your app folder; raw files are at `https://raw.githubusercontent.com/Teddarific/skills/main/skills/what-if/scripts/<file>`. They need Node, Chrome, ffmpeg, Python with Pillow and numpy, and `playwright-core`, `vite` and `react` in the app. Every run-specific path is a variable in `env.sh`.
 - [`examples/brief-template.md`](examples/brief-template.md): the per-film brief and the finishing brief.
 
 ## Notes
@@ -72,4 +78,4 @@ Log concepts and my reactions; treat repeated corrections as rules. Begin with s
 - The themes and vision notes come from your repo's issues and PRs, so keep them (and the bot's log) private.
 - Not tested: whether every bot can save a fetched or pasted file as a skill.
 
-MIT licensed.
+MIT licensed. See [`LICENSE`](LICENSE).
